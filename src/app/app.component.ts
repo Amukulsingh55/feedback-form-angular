@@ -7,4 +7,5 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'feedback-form-angular';
+  subtitle = 'With Reactive Forms in Angular (BG WEB AGENCY)';
 }

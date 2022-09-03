@@ -1,0 +1,8 @@
+h3, h4 {
+    text-align: center;
+    text-transform: uppercase;
+}
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+}

@@ -1,0 +1,143 @@
+<form novalidate [formGroup]="feedbackForm" (ngSubmit)="submitFeedbackForm()">
+    <section class="customer-name">
+        <h1>Full Name</h1>
+        <input type="text" placeholder="Enter your name here" formControlName="customerName">
+        <div *ngIf="customerNameChanged" class="errors">
+            <i>{{customerNameControl.value}}</i> is not a valid name
+        </div>
+        <div *ngIf="!customerNameChanged && customerNameControl.value && !customerNameControl.errors">
+            Welcome {{customerNameControl.value}}
+        </div>
+        <div *ngIf="customerNameControl.errors" class="errors">
+            <div *ngIf="customerNameControl.errors.required">
+                Please enter your name. This is a mandatory field.
+            </div>
+            <div *ngIf="customerNameControl.errors.minlength">
+                Please enter atleast {{customerNameControl.errors.minlength.requiredLength}} characters
+            </div>
+        </div>
+    </section>
+    <section class="gender">
+        <h1>Gender</h1>
+        <ul>
+            <li>
+                <input id="genderMale" type="radio" value="Male" formControlName="gender">
+                <label for="genderMale">Male</label>
+            </li>
+            <li>
+                <input id="genderFemale" type="radio" name="gender" value="Female" formControlName="gender">
+                <label for="genderFemale">Female</label>
+            </li>
+        </ul>
+    </section>
+    <section class="cutting-design">
+        <h1>Cutting design</h1>
+        <label>I own a:</label>
+        <select formControlName="cuttingdesign">
+            <option value=""></option>
+            <option value="HairCut">HairCut</option>
+            <option value="Shaving">Shaving</option>
+            <option Value="Treaming">Treaming</option>
+            <option value="faceWashing">faceWashing</option>
+        </select>
+    </section>
+    <section class="detailed-feedback">
+    
+        <section>
+            <h1>Cutting quality</h1>
+            <ul>
+                <li>
+                    <input id="cuttingQualityAwesome" type="radio" value="Awesome" formControlName="cuttingQuality">
+                    <label for="cuttingQualityAwesome">Awesome</label>
+                </li>
+                <li>
+                    <input id="cuttingQualityGood" type="radio" value="Good" formControlName="cuttingQuality">
+                    <label for="cuttingQualityGood">Good</label>
+                </li>
+                <li>
+                    <input id="cuttingQualityWorst" type="radio" value="Worst" formControlName="cuttingQuality">
+                    <label for="cuttingQualityWorst">Worst</label>
+                </li>
+            </ul>
+            <div *ngIf="feedbackForm.errors" class="errors">
+                <!-- <div *ngIf="feedbackForm.errors.relationFail">
+                    Can't give feedback<br> for old product.
+                </div> -->
+            </div>
+        </section>
+        <section formGroupName="ShavingQuality">
+            <h1>Shaving</h1>
+            <ul>
+                <li>
+                    <input id="OnTime" type="checkbox" formControlName="OnTime">
+                    <label for="OnTime">On time?</label>
+                </li>
+                <li>
+                    <input id="damagedProduct" type="checkbox" formControlName="damagedProduct">
+                    <label for="damagedProduct">Damaged product?</label>
+                </li>
+                <li>
+                    <input id="extraCharge" type="checkbox" formControlName="extraCharge">
+                    <label for="extraCharge">Extra charge?</label>
+                </li>
+            </ul>
+        </section>
+        <section formGroupName="TreamingQuality">
+            <h1>Tream</h1>
+            <ul>
+                <li>
+                    <input id="properTream" type="checkbox" formControlName="properTream">
+                    <label for="properTream">Proper Tream?</label>
+                </li>
+                <li>
+                    <input id="easyTream" type="checkbox" formControlName="easytream">
+                    <label for="easyTream">Easy Tream?</label>
+                </li>
+                <li>
+                    <input id="worstTream" type="checkbox" formControlName="worstTream">
+                    <label for="worstTream">Proper training?</label>
+                </li>
+            </ul>
+        </section>
+        <section formGroupName="faceWashingQuality">
+            <h1>faceWashing</h1>
+            <ul>
+                <li>
+                    <input id="SmoothfaceWashing" type="checkbox" formControlName="SmoothfaceWashing">
+                    <label for="SmoothfaceWashing">SmoothfaceWashing?</label>
+                </li>
+                <li>
+                    <input id="roughFacewashing" type="checkbox" formControlName="roughFacewashing">
+                    <label for="roughFacewashing">roughFacewashing?</label>
+                </li>
+                <li>
+                    <input id="otherIssues" type="checkbox" formControlName="otherIssues">
+                    <label for="otherIssues">otherIssues?</label>
+                </li>
+            </ul>
+        </section>
+    </section>
+    <section>
+        <h1>Any Suggestions?</h1>
+        <textarea formControlName="suggestions"></textarea>
+    </section>
+    <section class="more-feedbacks" formArrayName="morefeedbacks">
+        <h1>More feedback?</h1>
+        <ul>
+            <li *ngFor="let item of morefeedbacksControls.controls; let i = index">
+                <input type="text" formControlName="{{i}}">
+                <button type="button" title="Delete Feedback" (click)="deleteMoreFeedback(i)">Delete</button>
+            </li>
+        </ul>
+        <button type="button" (click)="addMoreFeedback()">Add a Feedback</button>
+    </section>
+    <button type="submit" [disabled]='!feedbackForm.valid'>Submit Feedback</button>
+    <button type="button" (click)="clearForm()">Clear Form</button>
+</form>
+
+<!-- Form Data -->
+<section>
+    <hr>
+    <h1>Developers area</h1>
+    <pre>{{ feedbackForm.value | json }}</pre>
+</section>
